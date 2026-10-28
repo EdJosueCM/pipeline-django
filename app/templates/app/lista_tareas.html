@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tareas · Pipeline Django</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; color: #1f2937; background: #f9fafb; }
+    h1 { margin-bottom: .25rem; }
+    .info { color: #6b7280; font-size: .9rem; margin-top: 0; }
+    form.nueva { display: grid; gap: .5rem; margin: 1.5rem 0; }
+    input, textarea { padding: .5rem; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; }
+    button { padding: .4rem .8rem; border: 0; border-radius: 6px; background: #2563eb; color: #fff; cursor: pointer; }
+    button.sec { background: #e5e7eb; color: #1f2937; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; align-items: center; gap: .5rem; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: .75rem; margin-bottom: .5rem; }
+    li .texto { flex: 1; }
+    li.hecha .texto { text-decoration: line-through; color: #9ca3af; }
+    li form { margin: 0; }
+  </style>
+</head>
+<body>
+  <h1>Lista de tareas</h1>
+  <p class="info">Django ejecutándose con base de datos: <strong>{{ motor_bd }}</strong></p>
+
+  <form method="post" class="nueva">
+    {% csrf_token %}
+    {{ form.titulo.errors }}
+    <input name="titulo" placeholder="Nueva tarea" maxlength="200" required>
+    <textarea name="descripcion" placeholder="Descripción (opcional)" rows="2"></textarea>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <ul>
+    {% for tarea in tareas %}
+      <li class="{% if tarea.completada %}hecha{% endif %}">
+        <span class="texto">{{ tarea.titulo }}{% if tarea.descripcion %}<br><small>{{ tarea.descripcion }}</small>{% endif %}</span>
+        <form method="post" action="{% url 'alternar_tarea' tarea.pk %}">{% csrf_token %}
+          <button class="sec">{% if tarea.completada %}Reabrir{% else %}Completar{% endif %}</button>
+        </form>
+        <form method="post" action="{% url 'eliminar_tarea' tarea.pk %}">{% csrf_token %}
+          <button class="sec">Eliminar</button>
+        </form>
+      </li>
+    {% empty %}
+      <li>No hay tareas todavía.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
