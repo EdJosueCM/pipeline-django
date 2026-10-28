@@ -37,7 +37,6 @@ def eliminar_tarea(request, pk):
 
 
 def health(request):
-    """Endpoint usado por el pipeline para validar el despliegue."""
     with connection.cursor() as cursor:
         cursor.execute("SELECT 1")
     return JsonResponse({"status": "ok", "database": connection.vendor})

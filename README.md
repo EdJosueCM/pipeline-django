@@ -20,15 +20,14 @@ scripts/deploy-simulado.ps1
 deploy-notes.md
 ```
 
-## Ejecutar en local sin Docker
+## Ejecutar en local sin Docker (requiere PostgreSQL)
 
 ```powershell
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-# Con PostgreSQL local (variables POSTGRES_* opcionales, ver project/settings.py):
-python manage.py migrate; python manage.py runserver
-# O, sin PostgreSQL, solo para pruebas rápidas:
-$env:DB_ENGINE="sqlite"; python manage.py test
+python manage.py migrate
+python manage.py test
+python manage.py runserver
 ```
 
 ## Sesión 1 – CI

@@ -2,7 +2,7 @@ name: CI/CD Django
 
 on:
   push:
-    branches: [main, master, ci-setup]
+    branches: [main, ci-setup]
   pull_request:
   workflow_dispatch:
 
@@ -10,7 +10,6 @@ env:
   IMAGE_NAME: pipeline-django
 
 jobs:
-  # ---------------------------------------------------------------- Sesión 1
   test:
     name: CI - Tests
     runs-on: ubuntu-latest
@@ -55,7 +54,6 @@ jobs:
       - name: Ejecutar tests
         run: python manage.py test -v 2
 
-  # ---------------------------------------------------------------- Sesión 3
   build:
     name: Build - Imagen Docker
     needs: test

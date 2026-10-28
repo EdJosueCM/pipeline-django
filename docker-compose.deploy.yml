@@ -1,7 +1,3 @@
-# Despliegue simulado: NO construye nada, usa una imagen ya construida por el
-# pipeline (cargada con `docker load` desde el artefacto de GitHub Actions o
-# descargada de DockerHub).
-#   WEB_IMAGE=pipeline-django:latest docker compose -f docker-compose.deploy.yml up -d
 services:
   db:
     image: postgres:16
